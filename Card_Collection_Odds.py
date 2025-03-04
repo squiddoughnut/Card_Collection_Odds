@@ -1,7 +1,6 @@
 # --- Configuration Variables (Update these based on the game's RewardState.json file) ---
 # Series 4 & 5 lists
 unobtained_series_45_cards = [
-    "CardRavonnaRenslayer",
     "CardSage",
     "CardLegion",
     "CardAjax",
@@ -19,14 +18,12 @@ unobtained_series_45_cards = [
     "CardBlob",
     "CardThePhoenixForce",
     "CardNamora",
-    "CardSnowguard",
     "CardDarkHawk",
     "CardIronLad",
     "CardBlackKnight",
     "CardCullObsidian",
     "CardBlackSwan",
     "CardHulkling",
-    "CardSersi",
     "CardNicoMinoru",
     "CardUSAgent",
     "CardMisery",
@@ -87,7 +84,6 @@ unobtained_series_45_cards = [
     "CardJoaquinTorres",
     "CardKingEitri",
     "CardScream",
-    "CardSelene",
     "CardMalekith"
   ]
 
@@ -95,7 +91,6 @@ past_token_shop_cards = [ # ' "TokenShopCardsSeries4Box": [ '
     "CardHighEvolutionary",
     "CardRedHulk",
     "CardMalekith",
-    "CardSelene",
     "CardAntiVenom",
     "CardRedGuardian",
     "CardMiek",
@@ -106,32 +101,50 @@ past_token_shop_cards = [ # ' "TokenShopCardsSeries4Box": [ '
     "CardDaken",
     "CardBaronZemo",
     "CardSage",
-    "CardGrandMaster"
+    "CardGrandMaster",
+    "CardValentina",
+    "CardGalacta",
+    "CardThanos",
+    "CardSupergiant",
+    "CardAnnihilus",
+    "CardAjax",
+    "CardHulkling",
+    "CardNicoMinoru",
+    "CardHydraBob",
+    "CardFrigga",
+    "CardMisery"
 	]
 
 wanted_series_45_cards = [
-    "CardRavonnaRenslayer",
     "CardSage"
 ]
 # Series 3 lists
 unobtained_series_3_cards = [
+    "CardNebula",
+    "CardSpiderHam",
     "CardEcho",
+    "CardGhostSpider",
     "CardHumanTorch",
+    "CardSelene",
+    "CardZabu",
+    "CardHavok",
     "CardMasterMold",
     "CardMysterio",
+    "CardSilk",
     "CardMagik",
     "CardDebrii",
     "CardGambit",
     "CardShanna",
+    "CardHercules",
     "CardGhostRider",
     "CardLockjaw",
     "CardSilverSamurai",
     "CardTyphoidMary",
     "CardValkyrie",
     "CardBlackPanther",
-    "CardRonan",
     "CardBlackBolt",
-    "CardStature",
+    "CardLadyDeathstrike",
+    "CardModok",
     "CardJaneFoster",
     "CardRedSkull",
     "CardArnimZola",
@@ -143,10 +156,8 @@ past_free_series_3_cards = [ # ' "TokenShopCardsSeries3Box": [ '
     "CardBlackPanther",
     "CardJaneFoster",
     "CardMagik",
-    "CardStature",
     "CardSilverSamurai",
     "CardEcho",
-    "CardRonan",
     "CardGambit",
     "CardRedSkull",
     "CardTyphoidMary",
@@ -155,7 +166,8 @@ past_free_series_3_cards = [ # ' "TokenShopCardsSeries3Box": [ '
     "CardValkyrie",
     "CardMysterio",
     "CardBlackBolt",
-    "CardHumanTorch"
+    "CardHumanTorch",
+    "CardShanna"
     ]
 
 wanted_series_3_cards = [
@@ -234,17 +246,24 @@ def calculate_collection_stats(all_cards, seen_cards, wanted_cards, pulls_per_da
     odds_percentage = round((wanted_count / available_cards) * 100, 2) if available_cards > 0 else 0
     days_till_wanted = round(avg_draws_needed(available_cards, wanted_count) / pulls_per_day, 1)
     days_till_complete = round(available_cards / pulls_per_day, 1)
+    days_per_cycle = round(total_cards / pulls_per_day, 1)
     
     # Display results
     print(f'I am missing {total_cards} {series_name} cards.')
     print(f'I want {wanted_cards_count} {series_name} cards,')
     print(f"{', '.join(map(str, wanted_cards))}")
     print()
-    print(f'There are {available_cards} left to pull and I am looking for {wanted_count} of them.')
-    print(f"{', '.join(map(str, remaining_wanted))}")
-    print(f'The odds of pulling a card I want on the next pull is {odds_percentage}%.')
-    print(f'With {pulls_per_day} pulls per day, it will take an average of {days_till_wanted} more days to pull my wanted cards.')
+
+    if wanted_count == 0:
+        print(f'There are {available_cards} {series_name} cards left to pull and I am not looking for any of them.')
+    else:
+        print(f'There are {available_cards} {series_name} cards left to pull and I am looking for {wanted_count} of them.')
+        print(f"{', '.join(map(str, remaining_wanted))}")
+        print(f'The odds of pulling a card I want on the next pull is {odds_percentage}%.')
+        print(f'With {pulls_per_day} pulls per day, it will take an average of {days_till_wanted} more days to pull my wanted cards.')
+    
     print(f'And it will take {days_till_complete} more days to pull all the remaining {series_name} cards.')
+    print(f'Finally, it takes {days_per_cycle} days to show all unobtained cards from {series_name}.')
 
 def calculate_series3_completion(total_cards, cards_per_set=4, levels_per_set=108):
     """
